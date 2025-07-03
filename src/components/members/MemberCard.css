@@ -49,3 +49,33 @@
   font-size: 0.875rem;
   color: #6b7280;
 }
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .member-card {
+    padding: 0.75rem;
+  }
+  
+  .member-info {
+    gap: 0.5rem;
+  }
+  
+  .member-avatar {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .member-info h3 {
+    font-size: 0.9rem;
+  }
+  
+  .member-info p {
+    font-size: 0.8rem;
+  }
+  
+  .member-status {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+}

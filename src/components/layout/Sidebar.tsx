@@ -49,6 +49,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
         </nav>
       </div>
       {isOpen && <div className="sidebar-overlay" onClick={onToggle} />}
+      {isOpen && (
+        <div className="sidebar-overlay mobile-only" onClick={onToggle} />
+      )}
     </>
   );
 };

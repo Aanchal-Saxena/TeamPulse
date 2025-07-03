@@ -59,3 +59,47 @@
   color: var(--color-gray-600);
   font-weight: 500;
 }
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .chart-container {
+    padding: 1rem;
+  }
+  
+  .chart-header {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+  
+  .chart-header h3 {
+    font-size: 1.125rem;
+  }
+  
+  .chart-stats {
+    align-self: stretch;
+    justify-content: center;
+  }
+  
+  .total-members {
+    font-size: 1.25rem;
+  }
+  
+  .total-label {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .chart-container {
+    padding: 0.75rem;
+  }
+  
+  .chart-header h3 {
+    font-size: 1rem;
+  }
+  
+  .active-count {
+    font-size: 0.8rem;
+  }
+}

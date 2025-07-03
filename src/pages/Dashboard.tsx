@@ -51,6 +51,8 @@ const Dashboard: React.FC = () => {
       : filteredMembers;
   }, [members, searchTerm, statusFilter, sortByTasks]);
 
+
+
   // Memoized handlers
   const handleSidebarToggle = useCallback(() => setSidebarOpen(!sidebarOpen), [sidebarOpen]);
   const handleStatusFilterChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -65,6 +67,7 @@ const Dashboard: React.FC = () => {
   return (
     <div className="dashboard">
       <Sidebar isOpen={sidebarOpen} onToggle={handleSidebarToggle} />
+
       <div className={`main-content ${sidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
         <Header />
       
