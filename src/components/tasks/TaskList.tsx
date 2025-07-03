@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { updateTaskProgress } from '../../redux/slices/membersSlice';
 import { getCurrentMember } from '../../utils';
-import { TASK_PROGRESS_STEP } from '../../constants';
+import { TASK_PROGRESS_STEP, TASK_PROGRESS_MAX, TASK_PROGRESS_MIN, MESSAGES } from '../../constants';
 import './TaskList.css';
 
 const TaskList: React.FC = () => {
@@ -13,15 +13,15 @@ const TaskList: React.FC = () => {
 
   // Use reusable utility to get current member
   const currentMember = getCurrentMember(members, currentUser);
-  if (!currentMember) return <div>No tasks found</div>;
+  if (!currentMember) return <div>{MESSAGES.NO_TASKS_FOUND}</div>;
 
   const handleProgressChange = (taskId: string, increment: boolean) => {
     const task = currentMember.tasks.find(t => t.id === taskId);
     if (!task) return;
 
     const newProgress = increment 
-      ? Math.min(100, task.progress + TASK_PROGRESS_STEP)
-      : Math.max(0, task.progress - TASK_PROGRESS_STEP);
+      ? Math.min(TASK_PROGRESS_MAX, task.progress + TASK_PROGRESS_STEP)
+      : Math.max(TASK_PROGRESS_MIN, task.progress - TASK_PROGRESS_STEP);
 
     dispatch(updateTaskProgress({
       memberId: currentMember.id,
@@ -34,7 +34,7 @@ const TaskList: React.FC = () => {
     <div className="task-list">
       <h3>Your Tasks ({currentMember.tasks.length})</h3>
       {currentMember.tasks.length === 0 ? (
-        <p className="no-tasks">No tasks assigned</p>
+        <p className="no-tasks">{MESSAGES.NO_TASKS}</p>
       ) : (
         currentMember.tasks.map(task => (
           <div key={task.id} className={`task-item ${task.completed ? 'completed' : ''}`}>
@@ -54,13 +54,13 @@ const TaskList: React.FC = () => {
             <div className="task-controls">
               <button 
                 onClick={() => handleProgressChange(task.id, false)}
-                disabled={task.progress === 0}
+                disabled={task.progress === TASK_PROGRESS_MIN}
               >
                 -10%
               </button>
               <button 
                 onClick={() => handleProgressChange(task.id, true)}
-                disabled={task.progress === 100}
+                disabled={task.progress === TASK_PROGRESS_MAX}
               >
                 +10%
               </button>

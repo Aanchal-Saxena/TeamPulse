@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../redux/store';
 import { loadMembers } from '../redux/slices/membersSlice';
-import { UserRole, MemberStatus } from '../constants/enums';
+import { UserRole, MemberStatus, APP_CONFIG, MESSAGES } from '../constants';
 import { getActiveTasks, searchMembers } from '../utils';
 import {
   Header,
@@ -20,7 +20,7 @@ import './Dashboard.css';
 
 const Dashboard: React.FC = () => {
   const { currentRole } = useSelector((state: RootState) => state.role);
-  const { members, loading } = useSelector((state: RootState) => state.members);
+  const { members, loading, hasApiUsers } = useSelector((state: RootState) => state.members);
   const dispatch = useDispatch();
   
   const [statusFilter, setStatusFilter] = useState<MemberStatus | ''>('');
@@ -28,12 +28,12 @@ const Dashboard: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  // Load members on mount if only dummy users exist
+  // Load API users if not already fetched
   useEffect(() => {
-    if (members.length <= 2) {
+    if (!hasApiUsers) {
       dispatch(loadMembers());
     }
-  }, [dispatch, members.length]);
+  }, [dispatch, hasApiUsers]);
 
   // Memoized member filtering and sorting for performance
   const sortedMembers = useMemo(() => {
@@ -124,7 +124,7 @@ const Dashboard: React.FC = () => {
                   ))
                 ) : (
                   <div className="no-results">
-                    <p>No members found matching your search criteria.</p>
+                    <p>{MESSAGES.NO_RESULTS}</p>
                   </div>
                 )}
               </div>

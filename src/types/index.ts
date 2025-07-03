@@ -26,4 +26,5 @@ export interface RoleState {
 export interface MembersState {
   members: Member[];
   loading: boolean;
+  hasApiUsers: boolean;
 }

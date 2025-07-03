@@ -5,6 +5,7 @@ import { getStatusCounts } from '../../utils';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { CustomLegend } from './';
 import { getStatusColor } from '../../constants/statusColors';
+import { APP_CONFIG } from '../../constants';
 import './ChartView.css';
 
 const ChartView: React.FC = () => {
@@ -16,7 +17,7 @@ const ChartView: React.FC = () => {
   const chartData = Object.entries(statusCounts).map(([status, count]) => ({
     name: status,
     value: count,
-    percentage: Math.round((count / totalMembers) * 100),
+    percentage: Math.round((count / totalMembers) * APP_CONFIG.PERCENTAGE_MULTIPLIER),
     color: getStatusColor(status)
   }));
 

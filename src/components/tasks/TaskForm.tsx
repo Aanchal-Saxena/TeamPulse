@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { assignTask } from '../../redux/slices/membersSlice';
 import { generateId } from '../../utils';
+import { MESSAGES } from '../../constants';
 import { Toast } from '../ui';
 import './TaskForm.css';
 
@@ -87,7 +88,7 @@ const TaskForm: React.FC = () => {
     {/* Success notification */}
     {showToast && (
       <Toast 
-        message="Task assigned successfully!" 
+        message={MESSAGES.TASK_ASSIGNED} 
         onClose={() => setShowToast(false)} 
       />
     )}

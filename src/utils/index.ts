@@ -1,5 +1,5 @@
 import { Member } from '../types';
-import { MemberStatus } from '../constants/enums';
+import { MemberStatus, APP_CONFIG } from '../constants';
 
 // Count members by status for dashboard summary
 export const getStatusCounts = (members: Member[]) => {
@@ -26,7 +26,7 @@ export const getTaskStats = (members: Member | Member[]) => {
   const totalTasks = memberArray.reduce((sum, member) => sum + member.tasks.length, 0);
   const activeTasks = memberArray.reduce((sum, member) => sum + getActiveTasks(member).length, 0);
   const completedTasks = totalTasks - activeTasks;
-  const completionRate = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+  const completionRate = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * APP_CONFIG.PERCENTAGE_MULTIPLIER) : 0;
   
   return { totalTasks, activeTasks, completedTasks, completionRate };
 };

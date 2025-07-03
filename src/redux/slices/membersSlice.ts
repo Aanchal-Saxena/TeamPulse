@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { Member, Task, MembersState } from '../../types';
-import { MemberStatus, DUMMY_MEMBER, DUMMY_MEMBER_2 } from '../../constants';
+import { MemberStatus, DUMMY_MEMBER, DUMMY_MEMBER_2, TASK_PROGRESS_MAX, APP_CONFIG } from '../../constants';
 import { fetchRandomUsers } from '../../services/api';
 
 // Async thunk to load members from API
@@ -20,20 +20,22 @@ export const loadMembers = createAsyncThunk('members/loadMembers', async () => {
 
 import { localStorage } from '../../utils/localStorage';
 
-// Initialize members with dummy users or from localStorage
+// Initialize with saved data or dummy users
 const getInitialMembers = () => {
   const savedMembers = localStorage.getMembers();
-  if (savedMembers?.length > 2) {
-    const hasBothDummies = savedMembers.some(m => m.id === 'aanchal-001') && 
-                          savedMembers.some(m => m.id === 'john-002');
-    if (hasBothDummies) return savedMembers;
-  }
-  return [DUMMY_MEMBER, DUMMY_MEMBER_2];
+  return savedMembers || [DUMMY_MEMBER, DUMMY_MEMBER_2];
+};
+
+// Check if we have API users in localStorage
+const getHasApiUsers = () => {
+  const savedMembers = localStorage.getMembers();
+  return savedMembers && savedMembers.length > APP_CONFIG.TEAM_SIZE_THRESHOLD;
 };
 
 const initialState: MembersState = {
   members: getInitialMembers(),
-  loading: false
+  loading: false,
+  hasApiUsers: getHasApiUsers() || false
 };
 
 const membersSlice = createSlice({
@@ -60,7 +62,7 @@ const membersSlice = createSlice({
         const task = member.tasks.find(t => t.id === action.payload.taskId);
         if (task) {
           task.progress = action.payload.progress;
-          task.completed = action.payload.progress >= 100;
+          task.completed = action.payload.progress >= TASK_PROGRESS_MAX;
           localStorage.saveMembers(state.members);
         }
       }
@@ -68,6 +70,7 @@ const membersSlice = createSlice({
     resetMembers: (state) => {
       localStorage.removeItem('members');
       state.members = [DUMMY_MEMBER, DUMMY_MEMBER_2];
+      state.hasApiUsers = false; // Reset API flag
     }
   },
   extraReducers: (builder) => {
@@ -78,6 +81,7 @@ const membersSlice = createSlice({
       .addCase(loadMembers.fulfilled, (state, action) => {
         state.loading = false;
         state.members = action.payload;
+        state.hasApiUsers = true; // Mark that API users were fetched
         localStorage.saveMembers(action.payload);
       });
   }
