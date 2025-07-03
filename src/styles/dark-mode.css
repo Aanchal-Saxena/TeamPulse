@@ -303,3 +303,42 @@
 [data-theme="dark"] .stat-number {
   color: var(--dark-text-primary) !important;
 }
+
+/* Fix card header text visibility */
+[data-theme="dark"] .card-header h2,
+[data-theme="dark"] .card-header h3,
+[data-theme="dark"] .card-header h4 {
+  color: var(--dark-text-primary) !important;
+}
+
+/* Fix chart text visibility */
+[data-theme="dark"] .total-members {
+  color: var(--color-primary) !important;
+}
+
+[data-theme="dark"] .total-label {
+  color: var(--dark-text-secondary) !important;
+}
+
+[data-theme="dark"] .chart-header h3 {
+  color: var(--dark-text-primary) !important;
+}
+
+/* Fix status summary section headers */
+[data-theme="dark"] .status-section h4,
+[data-theme="dark"] .stats-section h4 {
+  color: var(--dark-text-primary) !important;
+}
+
+/* Fix completed task background in dark mode */
+[data-theme="dark"] .task-item.completed {
+  background: rgba(16, 185, 129, 0.15) !important;
+  border-color: var(--status-working) !important;
+}
+
+/* Fix task control button hover in dark mode */
+[data-theme="dark"] .task-controls button:hover:not(:disabled) {
+  background: var(--color-primary) !important;
+  color: white !important;
+  border-color: var(--color-primary) !important;
+}

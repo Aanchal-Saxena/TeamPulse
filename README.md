@@ -3,7 +3,7 @@
 A productivity monitoring tool for internal teams built with React, Redux Toolkit, and TypeScript.
 
 ## 🚀 Live Demo
-[**View Live Application**](https://6866600e0f7652f5a82e429c--teampulseproject.netlify.app/)
+[**View Live Application**](https://teampulseproject.netlify.app/)
 
 ## Features
 
